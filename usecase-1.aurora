@@ -1,6 +1,6 @@
 # Clone the repository
 clone = Process(name = 'get-sources',
-                cmdline = 'git clone https://gitlab.cern.ch/alice-aurora-usecases')
+                cmdline = 'git clone https://eulisse@gitlab.cern.ch/eulisse/alice-aurora-usecases.git')
 
 # Compile the simulation task
 compile = Process(
@@ -30,18 +30,22 @@ montecarlo = SequentialTask(
 )
 
 jobs = [
-  Service(cluster = 'build',
+  Job(cluster = 'build',
       environment = 'devel',
       role = 'mesostest',
       name = 'datataking_simulator',
       tier = "preemptible",
-      task = datataking),
+      task = datataking,
+      container = Docker(image = 'alisw/slc7-builder:latest')
+  ),
 
-  Service(cluster = 'build',
+  Job(cluster = 'build',
       environment = 'devel',
       role = 'mesostest',
       name = 'montecarlo_simulator',
       tier = "revocable",
-      task = datataking)
+      task = datataking,
+      container = Docker(image = 'alisw/slc7-builder:latest')
+  )
 ]
 
