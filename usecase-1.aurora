@@ -5,7 +5,7 @@ clone = Process(name = 'get-sources',
 # Compile the simulation task
 compile = Process(
             name = 'compile-simulator',
-            cmdline = 'cd alice-aurora-usecases && c++ simulator.cc -o simulator')
+            cmdline = 'c++ alice-aurora-usecases/simulator.cc -o ./simulator')
 
 # Run the task in datataking mode
 data_taking_simulation = Process(
