@@ -1,5 +1,8 @@
 #include <cmath>
 #include <iostream>
+
+#include <inttypes.h>
+#include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
 
