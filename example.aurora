@@ -1,7 +1,7 @@
 # Describe the process
 sleeper = Process(
   name = 'sleeper',
-  cmdline = 'sleep 100')
+  cmdline = 'sleep 1000')
 
 hello = Process(
   name = 'hello_world',
@@ -9,13 +9,13 @@ hello = Process(
 
 # describe the task
 hello_world_task = SequentialTask(
-  processes = [sleeper, hello],
+  processes = [hello, sleeper],
   resources = Resources(cpu = 1, ram = 1*MB, disk=8*MB))
 
 jobs = [
-  Service(cluster = 'build',
+  Service(cluster = 'o2',
           environment = 'devel',
-          role = 'mesostest',
+          role = 'root',
           name = 'hello_world',
           task = hello_world_task)
 ]
