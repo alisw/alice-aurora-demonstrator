@@ -7,21 +7,10 @@ compile = Process(
             name = 'compile-simulator',
             cmdline = 'c++ alice-aurora-usecases/simulator.cc -o ./simulator')
 
-# Run the task in datataking mode
-data_taking_simulation = Process(
-            name = 'datataking-simulation',
-            cmdline = './simulator 100 100'
-)
-
 # Run the task in montecarlo mode
 montecarlo_simulation = Process(
             name = 'montecarlo-simulation',
             cmdline = './simulator 100 0'
-)
-
-datataking = SequentialTask(
-  processes = [clone, compile, data_taking_simulation],
-  resources = Resources(cpu = 1.0, ram = 128*MB, disk=100*MB)
 )
 
 montecarlo = SequentialTask(
@@ -33,17 +22,8 @@ jobs = [
   Job(cluster = 'build',
       environment = 'devel',
       role = 'mesostest',
-      name = 'datataking_simulator',
-      tier = "preemptible",
-      task = datataking,
-      container = Docker(image = 'alisw/slc7-builder:latest')
-  ),
-
-  Job(cluster = 'build',
-      environment = 'devel',
-      role = 'mesostest',
       name = 'montecarlo_simulator',
-      tier = "revocable",
+      tier = "preemptible",
       task = montecarlo,
       container = Docker(image = 'alisw/slc7-builder:latest')
   )

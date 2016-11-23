@@ -1,0 +1,23 @@
+# Describe the process
+sleeper = Process(
+  name = 'sleeper',
+  cmdline = 'sleep 100')
+
+hello = Process(
+  name = 'hello_world',
+  cmdline = 'echo Hello')
+
+# describe the task
+hello_world_task = SequentialTask(
+  processes = [sleeper, hello],
+  resources = Resources(cpu = 1, ram = 1*MB, disk=8*MB))
+
+jobs = [
+  Service(cluster = 'o2',
+          environment = 'devel',
+          role = 'root',
+          name = 'hello_world_revocable',
+          task = hello_world_task,
+          tier = "revocable"
+  )
+]
